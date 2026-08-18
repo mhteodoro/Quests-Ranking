@@ -1,0 +1,43 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Player {
+  id           Int                 @id @default(autoincrement())
+  name         String
+  email        String              @unique
+  passwordHash String
+  createdAt    DateTime            @default(now())
+  completions  MissionCompletion[]
+}
+
+model Mission {
+  id          Int                 @id @default(autoincrement())
+  title       String
+  description String
+  points      Int
+  createdAt   DateTime            @default(now())
+  completions MissionCompletion[]
+}
+
+model MissionCompletion {
+  playerId    Int
+  missionId   Int
+  completedAt DateTime @default(now())
+
+  player  Player  @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  mission Mission @relation(fields: [missionId], references: [id], onDelete: Cascade)
+
+  @@id([playerId, missionId])
+}
