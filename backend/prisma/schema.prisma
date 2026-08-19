@@ -24,7 +24,7 @@ model Player {
 
 model Mission {
   id          Int                 @id @default(autoincrement())
-  title       String
+  title       String              @unique
   description String
   points      Int
   createdAt   DateTime            @default(now())

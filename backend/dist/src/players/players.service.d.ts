@@ -4,16 +4,16 @@ export declare class PlayersService {
     private readonly prisma;
     constructor(prisma: PrismaService);
     create(createPlayerDto: CreatePlayerDto): Promise<{
+        id: number;
+        createdAt: Date;
         name: string;
         email: string;
-        createdAt: Date;
-        id: number;
     }>;
     findByEmail(email: string): Promise<{
+        id: number;
+        createdAt: Date;
         name: string;
         email: string;
         passwordHash: string;
-        createdAt: Date;
-        id: number;
     } | null>;
 }

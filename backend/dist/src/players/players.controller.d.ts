@@ -4,9 +4,9 @@ export declare class PlayersController {
     private readonly playersService;
     constructor(playersService: PlayersService);
     create(createPlayerDto: CreatePlayerDto): Promise<{
+        id: number;
+        createdAt: Date;
         name: string;
         email: string;
-        createdAt: Date;
-        id: number;
     }>;
 }

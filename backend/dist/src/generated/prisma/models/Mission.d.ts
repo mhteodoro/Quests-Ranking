@@ -132,15 +132,15 @@ export type MissionOrderByWithRelationInput = {
 };
 export type MissionWhereUniqueInput = Prisma.AtLeast<{
     id?: number;
+    title?: string;
     AND?: Prisma.MissionWhereInput | Prisma.MissionWhereInput[];
     OR?: Prisma.MissionWhereInput[];
     NOT?: Prisma.MissionWhereInput | Prisma.MissionWhereInput[];
-    title?: Prisma.StringFilter<"Mission"> | string;
     description?: Prisma.StringFilter<"Mission"> | string;
     points?: Prisma.IntFilter<"Mission"> | number;
     createdAt?: Prisma.DateTimeFilter<"Mission"> | Date | string;
     completions?: Prisma.MissionCompletionListRelationFilter;
-}, "id">;
+}, "id" | "title">;
 export type MissionOrderByWithAggregationInput = {
     id?: Prisma.SortOrder;
     title?: Prisma.SortOrder;
