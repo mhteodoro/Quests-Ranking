@@ -1,5 +1,6 @@
 import { AuthService } from './auth.service';
 import { SignInDto } from './dto/sign-in.dto';
+import type { AuthenticatedRequest } from './types/authenticated-request';
 export declare class AuthController {
     private readonly authService;
     constructor(authService: AuthService);
@@ -11,4 +12,7 @@ export declare class AuthController {
             email: string;
         };
     }>;
+    getAuthenticatedPlayer(request: AuthenticatedRequest): {
+        player: import("./types/authenticated-request").JwtPayload;
+    };
 }

@@ -13,6 +13,7 @@ const jwt_1 = require("@nestjs/jwt");
 const players_module_1 = require("../players/players.module");
 const auth_controller_1 = require("./auth.controller");
 const auth_service_1 = require("./auth.service");
+const auth_token_guard_1 = require("./auth-token.guard");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
@@ -32,7 +33,8 @@ exports.AuthModule = AuthModule = __decorate([
             }),
         ],
         controllers: [auth_controller_1.AuthController],
-        providers: [auth_service_1.AuthService],
+        providers: [auth_service_1.AuthService, auth_token_guard_1.AuthTokenGuard],
+        exports: [auth_token_guard_1.AuthTokenGuard],
     })
 ], AuthModule);
 //# sourceMappingURL=auth.module.js.map
