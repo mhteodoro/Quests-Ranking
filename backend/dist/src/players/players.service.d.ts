@@ -9,4 +9,11 @@ export declare class PlayersService {
         createdAt: Date;
         id: number;
     }>;
+    findByEmail(email: string): Promise<{
+        name: string;
+        email: string;
+        passwordHash: string;
+        createdAt: Date;
+        id: number;
+    } | null>;
 }

@@ -46,6 +46,13 @@ let PlayersService = class PlayersService {
             throw error;
         }
     }
+    async findByEmail(email) {
+        return this.prisma.player.findUnique({
+            where: {
+                email: email.trim().toLowerCase(),
+            },
+        });
+    }
 };
 exports.PlayersService = PlayersService;
 exports.PlayersService = PlayersService = __decorate([

@@ -19,6 +19,7 @@ exports.PlayersModule = PlayersModule = __decorate([
         imports: [prisma_module_1.PrismaModule],
         controllers: [players_controller_1.PlayersController],
         providers: [players_service_1.PlayersService],
+        exports: [players_service_1.PlayersService]
     })
 ], PlayersModule);
 //# sourceMappingURL=players.module.js.map
