@@ -1,3 +1,4 @@
+import type { AuthenticatedRequest } from '../auth/types/authenticated-request';
 import { MissionsService } from './missions.service';
 export declare class MissionsController {
     private readonly missionsService;
@@ -8,4 +9,17 @@ export declare class MissionsController {
         description: string;
         points: number;
     }[]>;
+    findMyCompletions(request: AuthenticatedRequest): import("../generated/prisma/internal/prismaNamespace").PrismaPromise<{
+        missionId: number;
+        completedAt: Date;
+    }[]>;
+    complete(missionId: number, request: AuthenticatedRequest): Promise<{
+        message: string;
+        completion: {
+            title: string;
+            pointsEarned: number;
+            missionId: number;
+            completedAt: Date;
+        };
+    }>;
 }

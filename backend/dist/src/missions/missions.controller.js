@@ -8,9 +8,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MissionsController = void 0;
 const common_1 = require("@nestjs/common");
+const auth_token_guard_1 = require("../auth/auth-token.guard");
 const missions_service_1 = require("./missions.service");
 let MissionsController = class MissionsController {
     missionsService;
@@ -20,6 +24,12 @@ let MissionsController = class MissionsController {
     findAll() {
         return this.missionsService.findAll();
     }
+    findMyCompletions(request) {
+        return this.missionsService.findCompletedByPlayer(request.player.sub);
+    }
+    complete(missionId, request) {
+        return this.missionsService.complete(missionId, request.player.sub);
+    }
 };
 exports.MissionsController = MissionsController;
 __decorate([
@@ -28,6 +38,23 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], MissionsController.prototype, "findAll", null);
+__decorate([
+    (0, common_1.Get)('my-completions'),
+    (0, common_1.UseGuards)(auth_token_guard_1.AuthTokenGuard),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], MissionsController.prototype, "findMyCompletions", null);
+__decorate([
+    (0, common_1.Post)(':missionId/complete'),
+    (0, common_1.UseGuards)(auth_token_guard_1.AuthTokenGuard),
+    __param(0, (0, common_1.Param)('missionId', common_1.ParseIntPipe)),
+    __param(1, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Object]),
+    __metadata("design:returntype", void 0)
+], MissionsController.prototype, "complete", null);
 exports.MissionsController = MissionsController = __decorate([
     (0, common_1.Controller)('missions'),
     __metadata("design:paramtypes", [missions_service_1.MissionsService])

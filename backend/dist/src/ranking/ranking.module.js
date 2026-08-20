@@ -6,20 +6,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MissionsModule = void 0;
+exports.RankingModule = void 0;
 const common_1 = require("@nestjs/common");
-const auth_module_1 = require("../auth/auth.module");
 const prisma_module_1 = require("../prisma/prisma.module");
-const missions_controller_1 = require("./missions.controller");
-const missions_service_1 = require("./missions.service");
-let MissionsModule = class MissionsModule {
+const ranking_controller_1 = require("./ranking.controller");
+const ranking_service_1 = require("./ranking.service");
+let RankingModule = class RankingModule {
 };
-exports.MissionsModule = MissionsModule;
-exports.MissionsModule = MissionsModule = __decorate([
+exports.RankingModule = RankingModule;
+exports.RankingModule = RankingModule = __decorate([
     (0, common_1.Module)({
-        imports: [prisma_module_1.PrismaModule, auth_module_1.AuthModule],
-        controllers: [missions_controller_1.MissionsController],
-        providers: [missions_service_1.MissionsService],
+        imports: [prisma_module_1.PrismaModule],
+        controllers: [ranking_controller_1.RankingController],
+        providers: [ranking_service_1.RankingService],
     })
-], MissionsModule);
-//# sourceMappingURL=missions.module.js.map
+], RankingModule);
+//# sourceMappingURL=ranking.module.js.map

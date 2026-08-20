@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MissionsService = void 0;
 const common_1 = require("@nestjs/common");
+const client_1 = require("../generated/prisma/client");
 const prisma_service_1 = require("../prisma/prisma.service");
 let MissionsService = class MissionsService {
     prisma;
@@ -27,6 +28,62 @@ let MissionsService = class MissionsService {
             },
             orderBy: {
                 id: 'asc',
+            },
+        });
+    }
+    async complete(missionId, playerId) {
+        const mission = await this.prisma.mission.findUnique({
+            where: {
+                id: missionId,
+            },
+            select: {
+                id: true,
+                title: true,
+                points: true,
+            },
+        });
+        if (!mission) {
+            throw new common_1.NotFoundException('Mission not found');
+        }
+        try {
+            const completion = await this.prisma.missionCompletion.create({
+                data: {
+                    playerId,
+                    missionId,
+                },
+                select: {
+                    missionId: true,
+                    completedAt: true,
+                },
+            });
+            return {
+                message: 'Mission completed successfully',
+                completion: {
+                    ...completion,
+                    title: mission.title,
+                    pointsEarned: mission.points,
+                },
+            };
+        }
+        catch (error) {
+            if (error instanceof client_1.Prisma.PrismaClientKnownRequestError &&
+                error.code === 'P2002') {
+                throw new common_1.ConflictException('Mission already completed');
+            }
+            throw error;
+        }
+    }
+    findCompletedByPlayer(playerId) {
+        return this.prisma.missionCompletion.findMany({
+            where: {
+                playerId,
+            },
+            select: {
+                missionId: true,
+                completedAt: true,
+            },
+            orderBy: {
+                completedAt: 'asc',
             },
         });
     }
