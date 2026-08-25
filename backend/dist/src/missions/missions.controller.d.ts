@@ -10,16 +10,16 @@ export declare class MissionsController {
         points: number;
     }[]>;
     findMyCompletions(request: AuthenticatedRequest): import("../generated/prisma/internal/prismaNamespace").PrismaPromise<{
-        missionId: number;
         completedAt: Date;
+        missionId: number;
     }[]>;
     complete(missionId: number, request: AuthenticatedRequest): Promise<{
         message: string;
         completion: {
             title: string;
             pointsEarned: number;
-            missionId: number;
             completedAt: Date;
+            missionId: number;
         };
     }>;
 }

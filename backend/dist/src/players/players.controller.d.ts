@@ -5,8 +5,8 @@ export declare class PlayersController {
     constructor(playersService: PlayersService);
     create(createPlayerDto: CreatePlayerDto): Promise<{
         id: number;
+        createdAt: Date;
         name: string;
         email: string;
-        createdAt: Date;
     }>;
 }

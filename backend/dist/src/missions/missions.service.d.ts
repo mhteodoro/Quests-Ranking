@@ -14,12 +14,12 @@ export declare class MissionsService {
         completion: {
             title: string;
             pointsEarned: number;
-            missionId: number;
             completedAt: Date;
+            missionId: number;
         };
     }>;
     findCompletedByPlayer(playerId: number): Prisma.PrismaPromise<{
-        missionId: number;
         completedAt: Date;
+        missionId: number;
     }[]>;
 }

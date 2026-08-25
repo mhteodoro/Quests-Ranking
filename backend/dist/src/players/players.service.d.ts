@@ -5,15 +5,15 @@ export declare class PlayersService {
     constructor(prisma: PrismaService);
     create(createPlayerDto: CreatePlayerDto): Promise<{
         id: number;
+        createdAt: Date;
         name: string;
         email: string;
-        createdAt: Date;
     }>;
     findByEmail(email: string): Promise<{
         id: number;
+        createdAt: Date;
         name: string;
         email: string;
         passwordHash: string;
-        createdAt: Date;
     } | null>;
 }
