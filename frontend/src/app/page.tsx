@@ -1,5 +1,4 @@
-import { AuthPanel } from '@/components/AuthPanel';
-import { MissionsPanel } from '@/components/MissionsPanel';
+import { Dashboard } from '@/components/Dashboard';
 
 export default function Home() {
   return (
@@ -20,13 +19,7 @@ export default function Home() {
           </p>
         </header>
 
-        <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_360px]">
-          <MissionsPanel />
-
-          <aside className="lg:sticky lg:top-8">
-            <AuthPanel />
-          </aside>
-        </div>
+        <Dashboard />
       </div>
     </main>
   );

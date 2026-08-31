@@ -9,7 +9,13 @@ import {
 } from '@/services/missions';
 import type { Mission } from '@/types/mission';
 
-export function MissionsPanel() {
+interface MissionsPanelProps {
+    onMissionCompleted?: () => void;
+}
+
+export function MissionsPanel({
+    onMissionCompleted,
+}: MissionsPanelProps) {
     const { token, isAuthenticated, isLoading: isAuthLoading } =
         useAuth();
 
@@ -97,6 +103,7 @@ export function MissionsPanel() {
             ]);
 
             setSuccessMessage(response.message);
+            onMissionCompleted?.();
         } catch (caughtError) {
             setError(
                 caughtError instanceof Error
@@ -171,8 +178,8 @@ export function MissionsPanel() {
                         <article
                             key={mission.id}
                             className={`rounded-2xl border p-5 shadow-sm transition ${isCompleted
-                                    ? 'border-emerald-200 bg-emerald-50'
-                                    : 'border-slate-200 bg-white hover:border-indigo-200'
+                                ? 'border-emerald-200 bg-emerald-50'
+                                : 'border-slate-200 bg-white hover:border-indigo-200'
                                 }`}
                         >
                             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
