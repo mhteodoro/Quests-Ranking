@@ -19,8 +19,8 @@ export async function apiRequest<T>(
       ...headers,
       ...(token
         ? {
-            Authorization: `Bearer ${token}`,
-          }
+          Authorization: `Bearer ${token}`,
+        }
         : {}),
     },
   });
@@ -29,6 +29,11 @@ export async function apiRequest<T>(
     const body = (await response.json().catch(() => null)) as {
       message?: string;
     } | null;
+
+    const message = Array.isArray(body?.message)
+      ? body.message.join(', ')
+      : body?.message;
+
 
     throw new Error(body?.message ?? 'Unexpected API error');
   }
