@@ -27,7 +27,7 @@ export async function apiRequest<T>(
 
   if (!response.ok) {
     const body = (await response.json().catch(() => null)) as {
-      message?: string;
+      message?: string | string[];
     } | null;
 
     const message = Array.isArray(body?.message)
@@ -35,7 +35,7 @@ export async function apiRequest<T>(
       : body?.message;
 
 
-    throw new Error(body?.message ?? 'Unexpected API error');
+    throw new Error(message ?? 'Unexpected API error');
   }
 
   return response.json() as Promise<T>;
