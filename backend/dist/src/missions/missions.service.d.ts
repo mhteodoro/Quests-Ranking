@@ -1,8 +1,10 @@
 import { Prisma } from '../generated/prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
+import { RankingGateway } from '../ranking/ranking.gateway';
 export declare class MissionsService {
     private readonly prisma;
-    constructor(prisma: PrismaService);
+    private readonly rankingGateway;
+    constructor(prisma: PrismaService, rankingGateway: RankingGateway);
     findAll(): Prisma.PrismaPromise<{
         id: number;
         title: string;

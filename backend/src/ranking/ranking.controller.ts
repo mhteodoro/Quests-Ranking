@@ -4,10 +4,10 @@ import type { RankingEntry } from './types/ranking-entry';
 
 @Controller('ranking')
 export class RankingController {
-    constructor(private readonly rankingService: RankingService) { }
+  constructor(private readonly rankingService: RankingService) {}
 
-    @Get()
-    findAll(): Promise<RankingEntry[]> {
-        return this.rankingService.findAll();
-    }
+  @Get()
+  findAll(): Promise<RankingEntry[]> {
+    return this.rankingService.findAll();
+  }
 }

@@ -1,16 +1,17 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { io } from 'socket.io-client';
 import { getRanking } from '@/services/ranking';
 import type { RankingEntry } from '@/types/ranking';
 
-interface RankingPanelProps {
-    refreshKey: number;
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
+if (!apiUrl) {
+    throw new Error('NEXT_PUBLIC_API_URL is not defined');
 }
 
-export function RankingPanel({
-    refreshKey,
-}: RankingPanelProps) {
+export function RankingPanel() {
     const [ranking, setRanking] = useState<RankingEntry[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -41,12 +42,19 @@ export function RankingPanel({
             }
         }
 
+        const socket = io(apiUrl);
+
+        socket.on('ranking:updated', () => {
+            void loadRanking();
+        });
+
         void loadRanking();
 
         return () => {
             cancelled = true;
+            socket.disconnect();
         };
-    }, [refreshKey]);
+    }, []);
 
     return (
         <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">

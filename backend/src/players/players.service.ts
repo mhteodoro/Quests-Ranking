@@ -6,7 +6,7 @@ import { CreatePlayerDto } from './dto/create-player.dto';
 
 @Injectable()
 export class PlayersService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   async create(createPlayerDto: CreatePlayerDto) {
     const name = createPlayerDto.name.trim();
@@ -46,6 +46,4 @@ export class PlayersService {
       },
     });
   }
-
 }
-

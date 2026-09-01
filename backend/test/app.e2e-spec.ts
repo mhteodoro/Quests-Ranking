@@ -3,10 +3,22 @@ import { Test } from '@nestjs/testing';
 import request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { PrismaService } from '../src/prisma/prisma.service';
+import type { Server } from 'node:http';
+
+interface CreatedPlayerResponse {
+  id: number;
+  name: string;
+  email: string;
+}
+
+interface LoginResponse {
+  accessToken: string;
+}
 
 describe('Mission completion flow (e2e)', () => {
   let app: INestApplication;
   let prisma: PrismaService;
+  let httpServer: Server;
 
   beforeAll(async () => {
     const moduleFixture = await Test.createTestingModule({
@@ -15,6 +27,8 @@ describe('Mission completion flow (e2e)', () => {
 
     app = moduleFixture.createNestApplication();
     await app.init();
+
+    httpServer = app.getHttpServer() as Server;
 
     prisma = app.get(PrismaService);
   });
@@ -40,7 +54,7 @@ describe('Mission completion flow (e2e)', () => {
       },
     });
 
-    const registrationResponse = await request(app.getHttpServer())
+    const registrationResponse = await request(httpServer)
       .post('/players')
       .send({
         name: 'Test Player',
@@ -49,9 +63,11 @@ describe('Mission completion flow (e2e)', () => {
       })
       .expect(201);
 
-    const playerId = registrationResponse.body.id as number;
+    const playerBody = registrationResponse.body as CreatedPlayerResponse;
 
-    const loginResponse = await request(app.getHttpServer())
+    const playerId = playerBody.id;
+
+    const loginResponse = await request(httpServer)
       .post('/auth/login')
       .send({
         email: 'player@test.com',
@@ -59,34 +75,33 @@ describe('Mission completion flow (e2e)', () => {
       })
       .expect(200);
 
-    const accessToken = loginResponse.body.accessToken as string;
+    const loginBody = loginResponse.body as LoginResponse;
+
+    const accessToken = loginBody.accessToken;
 
     const responses = await Promise.all([
-      request(app.getHttpServer())
+      request(httpServer)
         .post(`/missions/${mission.id}/complete`)
         .set('Authorization', `Bearer ${accessToken}`),
-      request(app.getHttpServer())
+      request(httpServer)
         .post(`/missions/${mission.id}/complete`)
         .set('Authorization', `Bearer ${accessToken}`),
     ]);
 
-    const statusCodes = responses
-      .map((response) => response.status)
-      .sort();
+    const statusCodes = responses.map((response) => response.status).sort();
 
     expect(statusCodes).toEqual([201, 409]);
 
-    const completionCount =
-      await prisma.missionCompletion.count({
-        where: {
-          playerId,
-          missionId: mission.id,
-        },
-      });
+    const completionCount = await prisma.missionCompletion.count({
+      where: {
+        playerId,
+        missionId: mission.id,
+      },
+    });
 
     expect(completionCount).toBe(1);
 
-    const rankingResponse = await request(app.getHttpServer())
+    const rankingResponse = await request(httpServer)
       .get('/ranking')
       .expect(200);
 

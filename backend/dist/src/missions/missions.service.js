@@ -13,10 +13,13 @@ exports.MissionsService = void 0;
 const common_1 = require("@nestjs/common");
 const client_1 = require("../generated/prisma/client");
 const prisma_service_1 = require("../prisma/prisma.service");
+const ranking_gateway_1 = require("../ranking/ranking.gateway");
 let MissionsService = class MissionsService {
     prisma;
-    constructor(prisma) {
+    rankingGateway;
+    constructor(prisma, rankingGateway) {
         this.prisma = prisma;
+        this.rankingGateway = rankingGateway;
     }
     findAll() {
         return this.prisma.mission.findMany({
@@ -56,6 +59,7 @@ let MissionsService = class MissionsService {
                     completedAt: true,
                 },
             });
+            this.rankingGateway.notifyRankingUpdated();
             return {
                 message: 'Mission completed successfully',
                 completion: {
@@ -91,6 +95,7 @@ let MissionsService = class MissionsService {
 exports.MissionsService = MissionsService;
 exports.MissionsService = MissionsService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService,
+        ranking_gateway_1.RankingGateway])
 ], MissionsService);
 //# sourceMappingURL=missions.service.js.map

@@ -17,9 +17,9 @@ import { RankingModule } from './ranking/ranking.module';
     PlayersModule,
     AuthModule,
     MissionsModule,
-    RankingModule
+    RankingModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

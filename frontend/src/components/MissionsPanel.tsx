@@ -9,13 +9,7 @@ import {
 } from '@/services/missions';
 import type { Mission } from '@/types/mission';
 
-interface MissionsPanelProps {
-    onMissionCompleted?: () => void;
-}
-
-export function MissionsPanel({
-    onMissionCompleted,
-}: MissionsPanelProps) {
+export function MissionsPanel() {
     const { token, isAuthenticated, isLoading: isAuthLoading } =
         useAuth();
 
@@ -103,7 +97,6 @@ export function MissionsPanel({
             ]);
 
             setSuccessMessage(response.message);
-            onMissionCompleted?.();
         } catch (caughtError) {
             setError(
                 caughtError instanceof Error

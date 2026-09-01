@@ -11,6 +11,7 @@ const common_1 = require("@nestjs/common");
 const prisma_module_1 = require("../prisma/prisma.module");
 const ranking_controller_1 = require("./ranking.controller");
 const ranking_service_1 = require("./ranking.service");
+const ranking_gateway_1 = require("./ranking.gateway");
 let RankingModule = class RankingModule {
 };
 exports.RankingModule = RankingModule;
@@ -18,7 +19,8 @@ exports.RankingModule = RankingModule = __decorate([
     (0, common_1.Module)({
         imports: [prisma_module_1.PrismaModule],
         controllers: [ranking_controller_1.RankingController],
-        providers: [ranking_service_1.RankingService],
+        providers: [ranking_service_1.RankingService, ranking_gateway_1.RankingGateway],
+        exports: [ranking_gateway_1.RankingGateway]
     })
 ], RankingModule);
 //# sourceMappingURL=ranking.module.js.map

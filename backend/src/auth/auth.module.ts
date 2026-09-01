@@ -24,4 +24,4 @@ import { AuthTokenGuard } from './auth-token.guard';
   providers: [AuthService, AuthTokenGuard],
   exports: [JwtModule, AuthTokenGuard],
 })
-export class AuthModule { }
+export class AuthModule {}

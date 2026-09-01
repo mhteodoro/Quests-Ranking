@@ -12,12 +12,13 @@ const auth_module_1 = require("../auth/auth.module");
 const prisma_module_1 = require("../prisma/prisma.module");
 const missions_controller_1 = require("./missions.controller");
 const missions_service_1 = require("./missions.service");
+const ranking_module_1 = require("../ranking/ranking.module");
 let MissionsModule = class MissionsModule {
 };
 exports.MissionsModule = MissionsModule;
 exports.MissionsModule = MissionsModule = __decorate([
     (0, common_1.Module)({
-        imports: [prisma_module_1.PrismaModule, auth_module_1.AuthModule],
+        imports: [prisma_module_1.PrismaModule, auth_module_1.AuthModule, ranking_module_1.RankingModule],
         controllers: [missions_controller_1.MissionsController],
         providers: [missions_service_1.MissionsService],
     })
